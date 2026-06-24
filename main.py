@@ -1,5 +1,5 @@
-from app import App
+from UI.app import CipherApp
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    app = CipherApp()
+    CipherApp.mainloop()
