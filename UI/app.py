@@ -22,6 +22,11 @@ class CipherApp(tk.Tk):
         self.title_lable.config(
             text = "CipherSuite"
         )
+        self.title_lable.pack(
+            side = "left",
+            padx = 20,
+            size = 15
+            )
 
 
 
