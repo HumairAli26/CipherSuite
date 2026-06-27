@@ -1,4 +1,4 @@
-def caesar(text, shift):
+def ceaser(text, shift):
     """
     Encrypts or decrypts text using the Caesar Cipher.
     Use a positive shift for encryption.
