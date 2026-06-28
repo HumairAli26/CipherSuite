@@ -7,7 +7,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import customtkinter as ctk
 from tkinter import messagebox
 from theme import THEMES
-from algorithms.ceaserCipher import ceaser
+from algorithms.ceaserCipher import enc_ceaser, dec_ceaser
+from algorithms.vignere import encrypt_vigenere, decrypt_vigenere
+from algorithms.xor import xor
 
 ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
@@ -54,7 +56,8 @@ class CipherApp(ctk.CTk):
             font=("Consolas", 12, "bold"),
             fg_color=self.current_theme["button_bg"],
             hover_color="#1E40AF",
-            text_color=self.current_theme["text"]
+            text_color=self.current_theme["text"],
+            command = self.toggle_theme
         )
         self.theme_button.pack(
             side="right",
@@ -127,7 +130,8 @@ class CipherApp(ctk.CTk):
                 "Vignere Cipher",
                 "XOR Cipher"
             ],
-            height = 30
+            height = 30,
+            command = self.cipher_changed
         )
         self.cipher_menu.pack(
             side = "left",
@@ -176,6 +180,22 @@ class CipherApp(ctk.CTk):
             anchor = "e"
         )
 
+        self.decrypt_button = ctk.CTkButton(
+            self.row_frame,
+            text = "Decrypt",
+            font = ("Consolas", 12, "bold"),
+            corner_radius = 10,
+            height = 30,
+            fg_color=self.current_theme["button_bg"],
+            hover_color="#1E40AF",
+            text_color = self.current_theme["text"],
+            command = self.decrypt_text
+        )
+        self.decrypt_button.pack(
+            side = "right",
+            anchor = "e"
+        )
+
 
         self.OutputLable = ctk.CTkLabel(
             self.main_frame,
@@ -196,7 +216,6 @@ class CipherApp(ctk.CTk):
             border_width = 2,
             border_color = self.current_theme["border"]
         )
-
         self.output_textbox.pack(
             fill = "x",
             pady = (0, 20)
@@ -206,8 +225,16 @@ class CipherApp(ctk.CTk):
     def encrypt_text(self):
         try:
             text = self.input_textbox.get("1.0", "end-1c")
-            shift = int(self.shift_entry.get())
-            encrypted = ceaser(text, shift)
+            cipher = self.cipher_menu.get()
+            if (cipher == "Ceaser Cipher"):
+                shift = int(self.shift_entry.get())
+                encrypted = enc_ceaser(text, shift)
+            elif (cipher == "Vignere Cipher"):
+                shift = self.shift_entry.get()
+                encrypted = encrypt_vigenere(text, shift)
+            elif (cipher == "XOR Cipher"):
+                shift = self.shift_entry.get()
+                encrypted = xor(text, shift)
             self.output_textbox.delete("1.0", "end-1c")
             self.output_textbox.insert("1.0", encrypted)
         except:
@@ -219,14 +246,135 @@ class CipherApp(ctk.CTk):
     def decrypt_text(self):
         try:
             text = self.input_textbox.get("1.0", "end-1c")
-            shift = int(self.shift_entry.get())
-            decrypted = ceaser(text, shift)
+            cipher = self.cipher_menu.get()
+            if (cipher == "Ceaser Cipher"):
+                shift = int(self.shift_entry.get())
+                decrypted = dec_ceaser(text, shift)
+            elif (cipher == "Vignere Cipher"):
+                shift = self.shift_entry.get()
+                decrypted = decrypt_vigenere(text, shift)
+            elif (cipher == "XOR Cipher"):
+                shift = self.shift_entry.get()
+                decrypted = xor(text, shift)
             self.output_textbox.delete("1.0", "end-1c")
             self.output_textbox.insert("1.0", decrypted)
         except:
             messagebox.showerror(
                 "Invalid Shift",
                 "Please enter a valid integer for shift value"
+            )
+
+    def toggle_theme(self):
+        if (self.current_theme == THEMES["light"]):
+            self.current_theme = THEMES["dark"]
+            self.theme_button.configure(
+                text = "☀ Light"
+            )
+            self.apply_theme()
+        else:
+            self.current_theme = THEMES["light"]
+            self.theme_button.configure(
+                text = "🌙 Dark"
+            )
+            self.apply_theme()
+
+    def apply_theme(self):
+
+        self.configure(
+            fg_color=self.current_theme["bg"]
+        )
+
+        self.header_frame.configure(
+            fg_color=self.current_theme["accent"]
+        )
+
+        self.title_label.configure(
+            text_color=self.current_theme["text"]
+        )
+
+        self.theme_button.configure(
+            fg_color=self.current_theme["button_bg"],
+            text_color=self.current_theme["text"]
+        )
+
+        self.main_frame.configure(
+            fg_color="transparent"
+        )
+
+        self.InputLable.configure(
+            text_color=self.current_theme["text"]
+        )
+
+        self.input_textbox.configure(
+            border_color=self.current_theme["border"],
+            fg_color=self.current_theme["input_bg"],
+            text_color=self.current_theme["text"]
+        )
+
+        self.cipher_lable.configure(
+            text_color=self.current_theme["text"]
+        )
+
+        self.cipher_menu.configure(
+            fg_color=self.current_theme["button_bg"],
+            button_color=self.current_theme["accent"],
+            button_hover_color=self.current_theme["accent_lt"],
+            text_color=self.current_theme["text"]
+        )
+
+        self.shift_lable.configure(
+            text_color=self.current_theme["text"]
+        )
+
+        self.shift_entry.configure(
+            fg_color=self.current_theme["input_bg"],
+            border_color=self.current_theme["border"],
+            text_color=self.current_theme["text"]
+        )
+
+        self.encrypt_button.configure(
+            fg_color=self.current_theme["button_bg"],
+            text_color=self.current_theme["text"]
+        )
+
+        self.decrypt_button.configure(
+            fg_color=self.current_theme["button_bg"],
+            text_color=self.current_theme["text"]
+        )
+
+        self.OutputLable.configure(
+            text_color=self.current_theme["text"]
+        )
+
+        self.output_textbox.configure(
+            fg_color=self.current_theme["input_bg"],
+            border_color=self.current_theme["border"],
+            text_color=self.current_theme["text"]
+        )
+
+    def cipher_changed(self, choice):
+        if (choice == "Ceaser Cipher"):
+            self.shift_lable.configure(
+                text = "Shift:"
+            )
+            self.shift_entry.configure(
+                placeholder_text="Enter shift (e.g. 3)"
+            )
+
+        elif choice == "Vignere Cipher":
+            self.shift_lable.configure(
+                text="Encryption Key"
+            )
+            self.shift_entry.configure(
+                placeholder_text="Enter keyword"
+            )
+
+        elif choice == "XOR Cipher":
+            self.shift_lable.configure(
+                text="Encryption Key"
+            )
+            self.shift_entry.configure(
+                placeholder_text="Enter XOR key"
             )
 
 

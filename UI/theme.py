@@ -11,6 +11,7 @@ THEMES = {
         "button_fg": "#FFFFFF",        # White text for clear button visibility
         "border": "#E4E8F1",           # Subdued line separation for modular layouts
         "accent": "#0088CC",           # High-tech Cyber Cyan for focus highlights
+        "accent_lt": "#1E40AF",        # Blue for distinguishing between button on which mouse is.
         "success": "#10B981",          # Vibrant emerald for successful encryptions/decryptions
         "error": "#EF4444",            # Soft ruby red for cryptographic or validation failures
         "input_border_focus": "#0088CC", # Cyan accent outline for focused text inputs
@@ -32,6 +33,7 @@ THEMES = {
         "accent": "#00E5FF",           # Neon Cyan highlighting to guide user navigation
         "success": "#34D399",          # Mint Neon for successful operations and safe algorithm states
         "error": "#F87171",            # Neon Coral for block errors or incorrect passwords
+        "accent_lt": "#1E40AF",        # Blue for distinguishing between button on which mouse is.
         "input_border_focus": "#00E5FF", # Neon Cyan glowing outline for active cryptography text boxes
         "warning": "#FBBF24",          # Bright Amber warning for legacy ciphers (like MD5 or DES)
         "select_bg": "#312E81"         # Deep indigo block background for highlighting cipher keys
