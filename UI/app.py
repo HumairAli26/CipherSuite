@@ -1,13 +1,9 @@
-import sys
 import os
 from datetime import datetime
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-
 import customtkinter as ctk
 from tkinter import messagebox
-from theme import THEMES
+from .theme import THEMES
 from algorithms.ceaserCipher import enc_ceaser, dec_ceaser
 from algorithms.vignere import encrypt_vigenere, decrypt_vigenere
 from algorithms.xor import xor
@@ -554,6 +550,4 @@ class CipherApp(ctk.CTk):
         self.history_labels.append(label)
 
 
-if __name__ == "__main__":
-    app = CipherApp()
-    app.mainloop()
+
