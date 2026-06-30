@@ -500,8 +500,7 @@ class CipherApp(ctk.CTk):
             )
 
     def open_file_clicked(self):
-        filedata, filepath = open_file()
-        self.current_file = os.path.basename(filepath)
+        filedata = open_file()
         if filedata is None:
             return
         self.input_textbox.delete("1.0", "end")
@@ -548,6 +547,3 @@ class CipherApp(ctk.CTk):
             fill="x"
         )
         self.history_labels.append(label)
-
-
-
